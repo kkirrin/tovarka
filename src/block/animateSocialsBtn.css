@@ -1,0 +1,118 @@
+/* стили для кнопки*/
+
+.chat_panel_item_link_icon svg, .chat_icon svg { 
+    fill: #fff; 
+    width: 32px; 
+    height: 32px; 
+  } 
+  .icon-hide { 
+    display: none; 
+  } 
+  .pulse_wrap { 
+    width: 58px; 
+    height: 58px; 
+    position: fixed; 
+    right: 35px; 
+    bottom: 35px; 
+    box-sizing: border-box; 
+  }
+  .pulse { 
+    position: absolute; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: #FEC900; 
+    border-radius: 50%; 
+    width: 58px; 
+    height: 58px; 
+    cursor: pointer; 
+    box-sizing: border-box; 
+    z-index: 999; 
+  } 
+  .pulse:before, .pulse:after { 
+    content: " "; 
+    display: block; 
+    position: absolute; 
+    border: 4px solid #f78d4d; 
+    left: -20px;
+    right: -20px; 
+    top: -20px; 
+    bottom: -20px; 
+    border-radius: 50%; 
+    box-sizing: border-box; 
+  }
+  .pulse .chat_icon { 
+    width: 32px; 
+    height: 32px; 
+  } 
+  .pulse:before, .pulse:after { 
+  animation: pulseanim 3s linear infinite; } 
+  .pulse:after { 
+  animation-delay: 1.5s; 
+  } 
+  @keyframes pulseanim { 
+  0% { 
+  transform: scale(0.7); 
+  opacity: 1; 
+  } 
+  50% { 
+  transform: scale(1); 
+  opacity: .3; 
+  } 
+  100% { 
+  transform: scale(1.3); 
+  opacity: 0; 
+  } 
+  } 
+  .stoppulse.pulse::before, .stoppulse.pulse::after { animation-play-state: paused; 
+    border-color: transparent; 
+    display: none; 
+  }
+  .chat_panel { 
+    z-index: 2; 
+    position: absolute; 
+    bottom: 9px; 
+    right: 0; 
+    left: 0; 
+    margin: 0 auto; 
+    overflow: hidden; 
+    height: 0px; 
+    width: 50px; 
+    padding: 2px 2px 0;
+    -webkit-transition: all .4s linear; 
+    -moz-transition: all .4s linear; 
+    -o-transition: all .4s linear; 
+    transition: all .4s linear; 
+    box-sizing: border-box; 
+  } 
+  .panel-open { 
+    height: 254px; 
+  /* Высота панели иконок. Вычитайте по 51 пикселю за каждую удаленную иконку */ } 
+  .chat_panel_item { 
+    float: left; 
+    margin-bottom: 5px; 
+  }
+  .chat_panel_item_link_icon svg { 
+    width: 27px; 
+    height: 27px; 
+  } 
+  .chat_link_icon_whatsapp { 
+    background-color: #1fc14b; 
+  } 
+  .chat_link_icon_email { 
+    background-color: #0083d1; 
+  } 
+  .chat_link_icon_instagram { 
+    background-color: #c62eba; 
+  } 
+  .chat_link_icon_call { 
+    background-color: #47547a; 
+  } 
+  .chat_link_icon_viber { 
+    background-color: #7360f2;
+  } 
+  .chat_link_icon_telegram { 
+    background-color: #0088cc; 
+  } 
+  
+  /*  */

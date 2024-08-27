@@ -1,0 +1,80 @@
+/* Секция Популярные категории */
+:root {
+    --box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    --webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    --moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+} 
+
+
+#cat_p li div{
+    transition: all 0.6s ease-in-out;
+}
+
+#cat_p li img{
+    transition: all 0.6s ease-in-out;
+}
+
+#cat_p li p{
+    transition: all 0.6s ease-in-out;
+}
+
+#cat_p li img {
+    scale: 0.8;
+}
+
+
+#cat_p li:hover div{
+    -webkit-box-shadow: var(--box-shadow);
+    -moz-box-shadow: var(--webkit-box-shadow);
+     box-shadow: var(--moz-box-shadow);
+}
+
+#cat_p li:hover img {
+    scale: 0.9;
+}
+
+#cat_p li:hover p {
+    color: var(--blue);
+    font-weight: 500;
+}
+
+
+/* Секция Популярные товары */
+
+#product_p .product_popular-item .swiper-slide div {
+    transition: all 0.6s ease-in-out;
+}
+
+#product_p .product_popular-item .swiper-slide:hover div{
+    -webkit-box-shadow: var(--box-shadow);
+    -moz-box-shadow: var(--webkit-box-shadow);
+     box-shadow: var(--moz-box-shadow);
+}
+
+/* Анимация кнопок каталога */
+
+.btn_catalog--blue {
+    transition: all 0.6s ease-in-out;
+}
+
+
+.popular-slider__btns {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.6s ease-in-out;
+    opacity: 0;
+
+}
+
+.popular-slider__btns button {
+    -webkit-box-shadow: var(--box-shadow);
+    -moz-box-shadow: var(--webkit-box-shadow);
+     box-shadow: var(--moz-box-shadow);
+}
+
+.product_popular-item:hover .popular-slider__btns {
+    display: flex;
+    opacity: 1;
+}

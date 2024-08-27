@@ -1,0 +1,258 @@
+/* Импорт шрифтов */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
+
+
+/* Импорт кастомных стилей для компонентов */
+@import './block/menu-button.css';
+@import './block/menu.css';
+@import './block/scrool-top.css';
+@import './block/popup.css';
+@import './block/animateSocialsBtn.css';
+@import './block/modal.css';
+@import './block/animate_block.css';
+@import './block/clip_box.css';
+@import './block/all_category.css';
+@import './block/new.css';
+
+/* Импорт TailWind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Зарегистрируйте пользовательское семейство шрифтов и сообщите браузеру, где его найти. */
+@font-face {
+    font-family: 'Roboto';
+    src: url('../src/fonts/Roboto-Regular.ttf');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../src/fonts/Roboto-Medium.ttf');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../src/fonts/Roboto-Bold.ttf');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        color: #262626;
+        background: #F5F5F5;
+        font-weight: 400;
+    }
+}
+
+@layer components {
+    .container {
+        @apply max-w-[1440px]
+    }
+}
+
+/* Директивы классов */
+
+.swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.5);
+  height: 12px;
+  width: 12px;
+}
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background: rgb(255, 255, 255);
+}
+
+:root {
+    --black: #000000;
+    --white: #fff;
+    --blue: #3B8ED7;
+    --light-gray: rgb(140, 140, 140);
+    --dark-gray: #E9E9E9;
+    --duration-add-animate-class: 2;
+    --duration-hover: 0.5;
+}
+
+
+ html {
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+        scrollbar-color: var(--blue) var(--dark-gray);
+        font-family: 'Involve';
+}   
+/* Прочие классы */
+
+.lock {
+    overflow: hidden;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.important {
+    background-image: url('../src/img/pattern-3.png');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+@media (max-width: 767px) {
+    .important {
+        background-image: none;
+    }
+}
+
+@media (max-width: 1023px) {
+    .hero-bg img {
+        display: none;
+    }
+}
+
+.header-fix {
+    /* background: rgba(20, 19, 19, 0.8); */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+    padding-bottom: 10px;
+}
+
+.title {
+    line-height: 85px !important;
+}
+
+
+.vertical__line {
+    position: relative;
+}
+
+.vertical__line::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 15%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 100%;
+    background-color: #D9D9D9;
+}
+
+input:focus {
+    border: none !important;
+}
+
+.cart_btn {
+    border-radius: 100%;
+    padding: 24px;
+    background-color: var(--blue);
+}
+
+.cart_btn:hover {
+
+}
+
+@media screen and (max-width: 480px) {
+    .vertical__line::before {
+        display: none;
+    }
+    .cart_btn {
+        display: none;
+    }
+}
+
+.swiper-pagination {
+    bottom: -40% !important;
+
+    left: 180px !important;
+}
+
+.swiper-pagination-bullet {
+    width: 24px !important;
+    height: 3px !important;
+    border-radius: 0 !important;
+}
+
+#category_aside {
+    position: relative;
+}
+
+#category_aside .sub-menu li:hover{
+    color: var(--blue);
+}
+
+#category_aside .sub-menu .sub-menu {
+    z-index: 10000;
+    position: absolute;
+    top: 0;
+    left: 325px;
+    /* right: 0; */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: var(--box-shadow);
+    min-width: 1100px;
+    max-width: 1100px;
+    min-height: 456;
+    background-color: var(--white);
+    transition: all 0.6s ease-in-out;
+    opacity: 0;
+
+}
+
+#category_aside .sub-menu .sub-menu.is-active {
+    opacity: 1;
+}
+
+#category_aside .sub-menu .sub-menu li a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    min-width: 300px;
+}
+
+#category_aside .sub-menu .sub-menu li p{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+}
+
+#category_aside .sub-menu .sub-menu li img{
+    min-width: 21px;
+    min-height: 190px   ;
+}
+
+
+#category_aside .sub-menu .sub-menu::after {
+    content: '';
+	display: inline-block;
+	position: absolute;
+	top: 33px;
+	left: -50px;
+	border: 26px solid transparent;
+	border-right: 26px solid #fff;
+}
+
+
