@@ -153,7 +153,7 @@
 .popup.open {
   opacity: 1;
   visibility: visible;
-  z-index: 70;
+  z-index: 100000 !important;
 }
 
 .popup__body {
@@ -2506,4 +2506,20 @@ input:focus {
 
 .woocommerce-product-gallery.woocommerce-product-gallery--with-images.woocommerce-product-gallery--columns-4.images {
   opacity: 1 !important;
+}
+
+.catalog_list--category li.catalog_list__item {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  justify-content: start;
+  min-width: 300px;
+  background-color: var(--white);
+  border-radius: 30px;
+}
+
+.catalog_list--category li.catalog_list__item ul {
+  padding: 10px 20px;
 }

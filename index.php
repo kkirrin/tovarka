@@ -38,7 +38,7 @@
             <div class="flex gap-[27px]">
                 <aside id="category_aside" class="min-w-[300px] rounded-[30px] bg-white p-[2px]">
                     <nav>
-                        <ul class="text-black sub-menu">
+                        <!-- <ul class="text-black sub-menu">
                             <li class="pt-[14px] pl-[25px] pb-[14px] flex gap-[10px]">
                                 <img src="<?php echo get_template_directory_uri() . '/src/img/icons/auto.svg'; ?>" alt="auto">
                                 <a href="" class="">Авто</a>
@@ -90,22 +90,65 @@
                                 <img src="<?php echo get_template_directory_uri() . '/src/img/icons/auto.svg'; ?>" alt="auto">
                                 <a href="" class="">Бинокли/монокуляры</a>
                             </li>
+                        </ul> -->
+
+                        <ul class="text-black sub-menu">
+                            <?php
+                            $categories = get_terms(array(
+                                'taxonomy'   => 'product_cat',
+                                'orderby'    => 'meta_value_num',
+                                'order'      => 'ASC',
+                                'hide_empty' => false,
+                                'parent'     => 0, // Задаем значение parent в 0, чтобы получить только родительские категории
+                            ));
+
+                            // Проверяем, растет ли массив категорий
+                            if (!is_wp_error($categories) && !empty($categories)) :
+                                foreach ($categories as $category) :
+                            ?>
+                                    <li class="pt-[14px] pl-[25px] pb-[14px] flex gap-[10px]">
+                                        <a href="<?php echo get_category_link($category->term_id); ?>" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                            <?php
+                                            $thumbnail_url = wp_get_attachment_url(get_woocommerce_term_meta($category->term_id, 'thumbnail_id', true));
+                                            ?>
+                                            <img style="max-width: 40px; max-height: 40px;" src="<?php echo esc_url($thumbnail_url ? $thumbnail_url : '/wp-content/uploads/woocommerce-placeholder.png'); ?>" alt="<?php echo esc_attr($category->name); ?>" />
+                                            <p class="text"><?php echo esc_html($category->name); ?></p>
+                                        </a>
+
+                                        <?php
+                                        // Получаем подкатегории
+                                        $sub_categories = get_terms(array(
+                                            'taxonomy'   => 'product_cat',
+                                            'parent'     => $category->term_id,
+                                            'orderby'    => 'meta_value_num',
+                                            'order'      => 'ASC',
+                                            'hide_empty' => false,
+                                        ));
+
+                                        // Включаем проверку, что есть подкатегории
+                                        if (!is_wp_error($sub_categories) && !empty($sub_categories)) :
+                                        ?>
+                                            <ul class="sub-menu">
+                                                <?php foreach ($sub_categories as $sub_category) : ?>
+                                                    <li>
+                                                        <a href="<?php echo get_category_link($sub_category->term_id); ?>">
+                                                            <span class="image">
+                                                                <?php
+                                                                $sub_thumbnail_url = wp_get_attachment_url(get_woocommerce_term_meta($sub_category->term_id, 'thumbnail_id', true));
+                                                                ?>
+                                                                <img src="<?php echo esc_url($sub_thumbnail_url ? $sub_thumbnail_url : '/wp-content/uploads/woocommerce-placeholder.png'); ?>" alt="<?php echo esc_attr($sub_category->name); ?>" />
+                                                            </span>
+                                                            <p><?php echo esc_html($sub_category->name); ?></p>
+                                                        </a>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </ul>
                     </nav>
-
-
-
-                    <!-- <?php wp_nav_menu([
-                                'theme_location' => 'aside',
-                                'container' => 'ul',
-                                'menu_class' => 'text-black sub-menu',
-                                'menu_id' => 'aside_category',
-
-                            ]);
-                            ?> -->
-
-
-
 
                 </aside>
 
@@ -127,12 +170,50 @@
                                 </button>
                             </div>
 
-                            <div class="swiper-wrapper relative">
-                                <div class="swiper-slide relative pt-[15px]">
-                                    <img class="md:block hidden w-full" src="<?php echo get_template_directory_uri() . '/src/img/main/main_1.png'; ?>" alt="">
-                                    <img class="md:hidden block" style="width: 100%;" src="<?php echo get_template_directory_uri() . '/src/img/main/trand_s.png'; ?>" alt="">
-                                </div>
-                            </div>
+
+                            <?php
+                            // Запрос WP, чтобы получить посты типа 'trands'
+                            $args = array(
+                                'post_type' => 'trands',
+                                'posts_per_page' => -1, // Получить все посты (или укажите нужное количество)
+                            );
+                            $data = get_posts($args); // Используем get_posts для получения записей
+
+                            // Проверяем, есть ли записи
+                            if ($data):
+                                foreach ($data as $post):
+                                    setup_postdata($post); // Настраиваем глобальную переменную $post для использования в шаблоне
+
+                                    // Получаем значения галереи ACF
+                                    $gallery = get_field('trand_gallery'); // Получаем основную галерею
+                                    $gallery_s = get_field('trand_gallery_s'); // Получаем малую галерею
+
+                                    // Проверяем, что хотя бы одна галерея не пустая
+                                    if ($gallery || $gallery_s) : ?>
+                                        <div class="swiper-wrapper relative">
+                                            <?php
+                                            // Если есть основная галерея
+                                            if ($gallery) :
+                                                // Проходим по всем изображениям в галерее
+                                                foreach ($gallery as $image) :
+                                                    $img_url = esc_url($image['url']); // Получаем URL изображения
+                                                    $img_alt = esc_attr($image['alt']); // Получаем alt текст изображения
+                                            ?>
+                                                    <div class="swiper-slide relative pt-[15px]">
+                                                        <img class="md:block hidden w-full" src="<?php echo $img_url; ?>" alt="<?php echo $img_alt; ?>">
+                                                        <img class="md:hidden block" style="width: 100%;" src="<?php echo $gallery_s ? esc_url($gallery_s[0]['url']) : ''; ?>" alt="<?php echo $gallery_s ? esc_attr($gallery_s[0]['alt']) : ''; ?>">
+                                                    </div>
+                                            <?php
+                                                endforeach;
+                                            endif; // end if ($gallery)
+                                            ?>
+                                        </div>
+                            <?php endif; // end if ($gallery || $gallery_s)
+                                endforeach; // end foreach ($data)
+                                wp_reset_postdata(); // Сбрасываем глобальную переменную $post
+                            endif; // end if ($data)
+                            ?>
+
                             <div class="swiper-pagination"></div>
                         </div>
                     </div>
@@ -295,27 +376,56 @@
         <div class="container">
             <div class="hit-item overflow-hidden">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img class="md:flex hidden absolute top-0 right-[160px]" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_btn.png'; ?>" alt="">
-                        <img class="md:flex hidden mt-[60px]" style="width: 100%;" src="<?php echo get_template_directory_uri() . '/src/img/main/hit.png'; ?>" alt="sale">
 
-                        <img class="md:hidden block absolute top-[30px] right-[40px]" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_btn_s.png'; ?>" alt="">
-                        <img class="md:hidden block mt-[60px]" style="width: inherit;" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_s.png'; ?>" alt="sale">
-                    </div>
-                    <div class="swiper-slide">
-                        <img class="md:flex hidden absolute top-0 right-[160px]" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_btn.png'; ?>" alt="">
-                        <img class="md:flex hidden mt-[60px]" style="width: 100%;" src="<?php echo get_template_directory_uri() . '/src/img/main/hit.png'; ?>" alt="sale">
+                    <?php
+                    $args = array(
+                        'post_type' => 'best',
+                        'posts_per_page' => -1,
+                    );
+                    $data = get_posts($args);
 
-                        <img class="md:hidden block absolute top-[30px] right-[40px]" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_btn_s.png'; ?>" alt="">
-                        <img class="md:hidden block mt-[60px]" style="width: inherit;" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_s.png'; ?>" alt="sale">
-                    </div>
-                    <div class="swiper-slide">
-                        <img class="md:flex hidden absolute top-0 right-[160px]" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_btn.png'; ?>" alt="">
-                        <img class="md:flex hidden mt-[60px]" style="width: 100%;" src="<?php echo get_template_directory_uri() . '/src/img/main/hit.png'; ?>" alt="sale">
+                    if ($data):
+                        foreach ($data as $post):
+                            setup_postdata($post);
 
-                        <img class="md:hidden block absolute top-[30px] right-[40px]" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_btn_s.png'; ?>" alt="">
-                        <img class="md:hidden block mt-[60px]" style="width: inherit;" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_s.png'; ?>" alt="sale">
-                    </div>
+                            $gallery = get_field('best_gallery');
+                            $gallery_s = get_field('best_gallery_s');
+
+                            if ($gallery || $gallery_s) : ?>
+                                <div class="swiper-wrapper relative">
+                                    <?php
+                                    if ($gallery) :
+                                        foreach ($gallery as $image) :
+                                            $img_url = esc_url($image['url']);
+                                            $img_alt = esc_attr($image['alt']);
+                                    ?>
+                                            <div class="swiper-slide">
+                                                <img class="md:flex hidden absolute top-0 right-[160px]" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_btn.png'; ?>" alt="">
+                                                <img class="md:flex hidden mt-[60px]" style="width: 100%;" src="<?php echo $img_url; ?>" alt="<?php echo $img_alt; ?>">
+
+                                                <?php
+                                                if ($gallery_s) :
+                                                    foreach ($gallery_s as $small_image) :
+                                                        $small_img_url = esc_url($small_image['url']);
+                                                        $small_img_alt = esc_attr($small_image['alt']);
+                                                ?>
+                                                        <img class="md:hidden block absolute top-[30px] right-[40px]" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_btn_s.png'; ?>" alt="">
+                                                        <img class="md:hidden block" src="<?php echo $small_img_url; ?>" alt="<?php echo $small_img_alt; ?>">
+                                                <?php
+                                                    endforeach; // end foreach ($gallery_s)
+                                                endif; // end if ($gallery_s)
+                                                ?>
+                                            </div>
+                                    <?php
+                                        endforeach; // end foreach ($gallery)
+                                    endif; // end if ($gallery)
+                                    ?>
+                                </div>
+                    <?php endif; // end if ($gallery || $gallery_s)
+                        endforeach; // end foreach ($data)
+                        wp_reset_postdata(); // Сбрасываем глобальную переменную $post
+                    endif; // end if ($data)
+                    ?>
                     <div class="swiper-pagination"></div>
                 </div>
             </div>
@@ -478,18 +588,84 @@
                 </div>
 
 
-                <div class="md:flex hidden w-full rounded-[30px]">
-                    <div class="relative flex flex-col w-full">
-                        <img class="max-h-[600px] object-contain" src="<?php echo get_template_directory_uri() . '/src/img/main/sale_b.png'; ?>" alt="">
+                <?php
+                $args = array(
+                    'post_type' => 'sale',
+                    'posts_per_page' => -1,
+                );
+                $data = get_posts($args);
 
-                        <div class="clip_box bottom left">
-                            <a href="" class="clip flex justify-center text-white text-center rounded-[40px] bg-blue px-[15px] w-[280px] py-[20px] mt-[20px] font-medium btn_catalog--blue clip_box ">
-                                <p class="flex justify-center">Смотреть все</p>
-                            </a>
-                        </div>
+                if ($data):
+                    foreach ($data as $post):
+                        setup_postdata($post);
 
-                    </div>
-                </div>
+                        $gallery = get_field('sale_gallery');
+                        $gallery_s = get_field('sale_gallery_s');
+
+                        if ($gallery || $gallery_s) : ?>
+                            <div class="swiper-wrapper relative">
+                                <?php
+                                if ($gallery) :
+                                    foreach ($gallery as $image) :
+                                        $img_url = esc_url($image['url']);
+                                        $img_alt = esc_attr($image['alt']);
+                                ?>
+                                        <div class="swiper-slide">
+                                            <img class="md:flex hidden absolute top-0 right-[160px]" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_btn.png'; ?>" alt="">
+                                            <img class="md:flex hidden mt-[60px]" style="width: 100%;" src="<?php echo $img_url; ?>" alt="<?php echo $img_alt; ?>">
+
+                                            <?php
+                                            if ($gallery_s) :
+                                                foreach ($gallery_s as $small_image) :
+                                                    $small_img_url = esc_url($small_image['url']);
+                                                    $small_img_alt = esc_attr($small_image['alt']);
+                                            ?>
+
+                                                    <div class="md:flex hidden w-full rounded-[30px]">
+                                                        <div class="relative flex flex-col w-full">
+                                                            <img class="max-h-[600px] object-contain" src="<?php echo $img_url; ?>" alt="">
+
+                                                            <div class="clip_box bottom left">
+                                                                <a href="" class="clip flex justify-center text-white text-center rounded-[40px] bg-blue px-[15px] w-[280px] py-[20px] mt-[20px] font-medium btn_catalog--blue clip_box ">
+                                                                    <p class="flex justify-center">Смотреть все</p>
+                                                                </a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="sale-swiper overflow-hidden md:hidden block" style="width: max-content;">
+                                                        <div class="swiper-wrapper" style="width: max-content;">
+                                                            <div class="sale-item--small">
+                                                                <div class="relative">
+                                                                    <img style="width: 100%;" src="<?php echo $small_img_url; ?>" alt="">
+                                                                </div>
+                                                                <div class="clip_box bottom left">
+                                                                    <a href="" class="clip flex justify-center text-white text-center rounded-[40px] bg-blue px-[15px] w-[160px] py-[20px] mt-[20px] font-medium btn_catalog--blue clip_box ">
+                                                                        <p class="flex justify-center">Смотреть все</p>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="swiper-pagination"></div>
+                                                        </div>
+                                                    </div>
+                                            <?php
+                                                endforeach; // end foreach ($gallery_s)
+                                            endif; // end if ($gallery_s)
+                                            ?>
+                                        </div>
+                                <?php
+                                    endforeach; // end foreach ($gallery)
+                                endif; // end if ($gallery)
+                                ?>
+                            </div>
+                <?php endif; // end if ($gallery || $gallery_s)
+                    endforeach; // end foreach ($data)
+                    wp_reset_postdata(); // Сбрасываем глобальную переменную $post
+                endif; // end if ($data)
+                ?>
+
+
 
                 <div class="sale-swiper overflow-hidden md:hidden block" style="width: max-content;">
                     <div class="swiper-wrapper" style="width: max-content;">

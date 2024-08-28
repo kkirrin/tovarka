@@ -4,15 +4,29 @@ export const initModal = () => {
     const arrowLk = document.querySelector('#arrow_lk');
 
 
-    const categoryAsideSubMenu = document.querySelector('aside .sub-menu');
-    console.log(categoryAsideSubMenu)
-    
-    const category = categoryAsideSubMenu.querySelectorAll('li')
-    console.log(category)
-
-    category.forEach((e) => {
+    const categoryAsideSubMenu = document.querySelector('aside .sub-menu');  
+    if (categoryAsideSubMenu) {
+        const categoryItems = categoryAsideSubMenu.querySelectorAll('li'); 
         
-    })
+        if (categoryItems.length > 0) {
+            categoryItems.forEach((item) => {
+                const subMenu = item.querySelector('.sub-menu'); 
+                
+                item.addEventListener('mouseenter', () => {
+                    if (subMenu) {
+                        subMenu.classList.add('is-active'); 
+                    }
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    if (subMenu) {
+                        subMenu.classList.remove('is-active'); 
+                    }
+                });
+            });    
+        }
+    }
+
 
     modalBtn.addEventListener('click', () => {
         modalLk.classList.toggle('is-open');

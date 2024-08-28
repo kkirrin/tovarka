@@ -53,63 +53,58 @@ get_header();
 		do_action('woocommerce_archive_description');
 		?>
 	</header>
-	<?php
-	if (woocommerce_product_loop()) {
 
-		/**
-		 * Hook: woocommerce_before_shop_loop.
-		 *
-		 * @hooked woocommerce_output_all_notices - 10
-		 * @hooked woocommerce_result_count - 20
-		 * @hooked woocommerce_catalog_ordering - 30
-		 */
-		do_action('woocommerce_before_shop_loop');
+	<div class="catalog_list--category">
+		<ul class="grid md:grid-cols-4 grid-cols-2 gap-[20px]">
+			<?php
+			$categories = get_terms(array(
+				'taxonomy'   => 'product_cat',
+				'orderby'    => 'meta_value_num',
+				'order'      => 'ASC',
+				'hide_empty' => false,
+				'parent'     => 0,
+			));
 
-		woocommerce_product_loop_start();
+			// Проверяем, растет ли массив категорий
+			if (!is_wp_error($categories) && !empty($categories)) :
+				foreach ($categories as $category) :
+			?>
+					<li style="width: max-content; border: 1px solid red;" class="catalog_list__item">
+						<a href="<?php echo get_category_link($category->term_id); ?>" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+							<?php
+							$thumbnail_url = wp_get_attachment_url(get_woocommerce_term_meta($category->term_id, 'thumbnail_id', true));
+							?>
+							<img style="max-width: 40px; max-height: 40px;" src="<?php echo esc_url($thumbnail_url ? $thumbnail_url : '/wp-content/uploads/woocommerce-placeholder.png'); ?>" alt="<?php echo esc_attr($category->name); ?>" />
+							<p class="text"><?php echo esc_html($category->name); ?></p>
+						</a>
 
-		if (wc_get_loop_prop('total')) {
-			while (have_posts()) {
-				the_post();
+						<?php
+						// Получаем подкатегории
+						$sub_categories = get_terms(array(
+							'taxonomy'   => 'product_cat',
+							'parent'     => $category->term_id,
+							'orderby'    => 'meta_value_num',
+							'order'      => 'ASC',
+							'hide_empty' => false,
+						));
 
-				/**
-				 * Hook: woocommerce_shop_loop.
-				 */
-				do_action('woocommerce_shop_loop');
-
-				wc_get_template_part('content', 'product');
-			}
-		}
-
-		woocommerce_product_loop_end();
-
-		/**
-		 * Hook: woocommerce_after_shop_loop.
-		 *
-		 * @hooked woocommerce_pagination - 10
-		 */
-		do_action('woocommerce_after_shop_loop');
-	} else {
-		/**
-		 * Hook: woocommerce_no_products_found.
-		 *
-		 * @hooked wc_no_products_found - 10
-		 */
-		do_action('woocommerce_no_products_found');
-	}
-
-	/**
-	 * Hook: woocommerce_after_main_content.
-	 *
-	 * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
-	 */
-	do_action('woocommerce_after_main_content');
-
-	/**
-	 * Hook: woocommerce_sidebar.
-	 *
-	 * @hooked woocommerce_get_sidebar - 10
-	 */
-	do_action('woocommerce_sidebar'); ?>
+						if (!is_wp_error($sub_categories) && !empty($sub_categories)) :
+						?>
+							<ul class="sub-menu">
+								<?php foreach ($sub_categories as $sub_category) : ?>
+									<li>
+										<a href="<?php echo get_category_link($sub_category->term_id); ?>">
+											<p><?php echo esc_html($sub_category->name); ?></p>
+										</a>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
+					</li>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</ul>
+	</div>
 </div>
 
 <?php get_footer(); ?>

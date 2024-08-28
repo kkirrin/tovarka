@@ -73,6 +73,36 @@
             </div>
         </section>
 
+        <section id="popup2" class="popup">
+            <div class="popup__body">
+                <div class="popup__content">
+                    <button class="popup__btn close-popup" aria-label="Закрыть" tabindex="4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="18" viewBox="0 0 23 18" fill="none">
+                            <path d="M4 1.45508L19.9099 17.365" stroke="#333" />
+                            <path d="M4.54492 16.9099L20.4548 1.00001" stroke="#333" />
+                        </svg>
+                    </button>
+                    <h2 class="text-start text-dark-green z-10  md:text-4xl text-xl pb-7 font-bold">Выполните вход</h2>
+
+                    <div class="form-wrapper">
+                        <label>Электронная почта</label>
+                        <input class="form__input" placeholder="Введите адрес электронной почты" />
+
+                        <label>Пароль</label>
+                        <input class="form__input" placeholder="**********" />
+
+                        <button class="bg-green text-white p-[10px]">
+                            Войти
+                        </button>
+
+                        <a class="text-gray text-sm text-center popup-link" href="#popup4">
+                            Забыли пароль?
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div class="navbar-mobile">
             <a href="/" class="flex flex-col gap-2 items-center justify-center">
                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -126,4 +156,4 @@
 
         </body>
 
-    </html>
+        </html>

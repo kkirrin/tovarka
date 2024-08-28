@@ -103,8 +103,8 @@
 
                                     </button>
                                     <div class="modal_content">
-                                        <a href="">Войти</a>
-                                        <a href="">Зарегистрироваться</a>
+                                        <a href="popup1" class="popup-link">Войти</a>
+                                        <a href="popup2" class="popup-link">Зарегистрироваться</a>
                                     </div>
                                 </div>
                             </div>
