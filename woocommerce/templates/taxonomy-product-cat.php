@@ -16,23 +16,8 @@
  * @version     4.7.0
  */
 
-if (!defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
-$term = get_queried_object();
-$parent_id = $term->parent;
-$parent_term = get_term($parent_id, 'product_cat');
-
-// Check if get_term returned a WP_Error object
-if (is_wp_error($parent_term)) {
-	// Handle the error, e.g., load a default template or display an error message
-	wc_get_template('archive-product.php'); // This is just an example
-} else {
-	if ($parent_term->slug == 'bands') {
-		// Custom code for categories whose parent category is 'Bands'
-		wc_get_template('archive-bands.php');
-	} else {
-		wc_get_template('archive-product.php');
-	}
-}
+wc_get_template('archive-product.php');

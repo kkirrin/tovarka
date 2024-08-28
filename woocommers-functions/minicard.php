@@ -14,4 +14,3 @@ function minicard_subtotal()
     $items_total = WC()->cart->get_cart_subtotal();
     echo $items_total;
 }
-?>

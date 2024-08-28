@@ -85,3 +85,21 @@ function true_order_again($actions, $order)
 }
 
 add_filter('woocommerce_my_account_my_orders_actions', 'true_order_again', 25, 2);
+
+
+
+
+// Подключение функций мини корзины
+if (class_exists('WooCommerce')) {
+    require_once(get_template_directory() . '/woocommers-functions/minicard.php');
+}
+
+// Подключение функций "ЗАКАЗЫ" корзины
+if (class_exists('WooCommerce')) {
+    require_once(get_template_directory() . '/woocommers-functions/order.php');
+}
+
+// Подключение функций "отображение избранных товаров" корзины
+if (class_exists('WooCommerce')) {
+    require_once(get_template_directory() . '/woocommers-functions/get-favorite.php');
+}

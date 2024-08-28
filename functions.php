@@ -54,6 +54,7 @@ function theme_add_scripts()
 function add_menu()
 {
     register_nav_menu('aside', 'Категории в sidebar');
+    register_nav_menu('lk', 'Навигация ЛК');
 }
 
 // add_action('admin_menu', 'remove_default_menus');

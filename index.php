@@ -28,6 +28,7 @@
                         <path d="M1 1H1.60632C2.62694 1 3.48384 1.7685 3.59452 2.78311L4.40548 10.2169C4.51616 11.2315 5.37306 12 6.39368 12H15.046C15.9602 12 16.7581 11.3801 16.984 10.4942L18.3639 5.08311C18.6864 3.81854 17.731 2.58889 16.426 2.58889H4.6M4.62476 15.6249H5.37476M4.62476 16.3749H5.37476M15.6248 15.6249H16.3748M15.6248 16.3749H16.3748M6 16C6 16.5523 5.55229 17 5 17C4.44772 17 4 16.5523 4 16C4 15.4477 4.44772 15 5 15C5.55229 15 6 15.4477 6 16ZM17 16C17 16.5523 16.5523 17 16 17C15.4477 17 15 16.5523 15 16C15 15.4477 15.4477 15 16 15C16.5523 15 17 15.4477 17 16Z" stroke="white" stroke-width="2" stroke-linecap="round" />
                     </svg>
                 </button>
+                <span><?php echo minicart_count_after_content(); ?>&nbsp;шт&nbsp;(<?php minicard_subtotal(); ?>)</span>
             </div>
 
         </div>
@@ -38,60 +39,6 @@
             <div class="flex gap-[27px]">
                 <aside id="category_aside" class="min-w-[300px] rounded-[30px] bg-white p-[2px]">
                     <nav>
-                        <!-- <ul class="text-black sub-menu">
-                            <li class="pt-[14px] pl-[25px] pb-[14px] flex gap-[10px]">
-                                <img src="<?php echo get_template_directory_uri() . '/src/img/icons/auto.svg'; ?>" alt="auto">
-                                <a href="" class="">Авто</a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="#" class="">
-                                            <img src="<?php echo get_template_directory_uri() . '/src/img/main/cat_p_1.png'; ?>" alt="cat">
-                                            <p>
-                                                Category 1
-                                            </p>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#" class="">
-                                            <img src="<?php echo get_template_directory_uri() . '/src/img/main/cat_p_1.png'; ?>" alt="cat">
-                                            <p>
-                                                Category 1
-                                            </p>
-                                        </a>
-                                    </li>
-
-
-                                    <li>
-                                        <a href="#" class="">
-                                            <img src="<?php echo get_template_directory_uri() . '/src/img/main/cat_p_1.png'; ?>" alt="cat">
-                                            <p>
-                                                Category 1
-                                            </p>
-                                        </a>
-                                    </li>
-
-
-                                    <li>
-                                        <a href="#" class="">
-                                            <img src="<?php echo get_template_directory_uri() . '/src/img/main/cat_p_1.png'; ?>" alt="cat">
-                                            <p>
-                                                Category 1
-                                            </p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="pt-[14px] pl-[25px] pb-[14px] flex gap-[10px]">
-                                <img src="<?php echo get_template_directory_uri() . '/src/img/icons/auto.svg'; ?>" alt="auto">
-                                <a href="" class="">Аксессуары</a>
-                            </li>
-                            <li class="pt-[14px] pl-[25px] pb-[14px] flex gap-[10px]">
-                                <img src="<?php echo get_template_directory_uri() . '/src/img/icons/auto.svg'; ?>" alt="auto">
-                                <a href="" class="">Бинокли/монокуляры</a>
-                            </li>
-                        </ul> -->
-
                         <ul class="text-black sub-menu">
                             <?php
                             $categories = get_terms(array(
@@ -611,8 +558,18 @@
                                         $img_alt = esc_attr($image['alt']);
                                 ?>
                                         <div class="swiper-slide">
-                                            <img class="md:flex hidden absolute top-0 right-[160px]" src="<?php echo get_template_directory_uri() . '/src/img/main/hit_btn.png'; ?>" alt="">
-                                            <img class="md:flex hidden mt-[60px]" style="width: 100%;" src="<?php echo $img_url; ?>" alt="<?php echo $img_alt; ?>">
+                                            <div class="md:flex hidden w-full rounded-[30px]">
+                                                <div class="relative flex flex-col w-full">
+                                                    <img class="max-h-[600px] object-contain" src="<?php echo $img_url; ?>" alt="">
+
+                                                    <div class="clip_box bottom left">
+                                                        <a href="" class="clip flex justify-center text-white text-center rounded-[40px] bg-blue px-[15px] w-[280px] py-[20px] mt-[20px] font-medium btn_catalog--blue clip_box ">
+                                                            <p class="flex justify-center">Смотреть все</p>
+                                                        </a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
 
                                             <?php
                                             if ($gallery_s) :
@@ -621,18 +578,7 @@
                                                     $small_img_alt = esc_attr($small_image['alt']);
                                             ?>
 
-                                                    <div class="md:flex hidden w-full rounded-[30px]">
-                                                        <div class="relative flex flex-col w-full">
-                                                            <img class="max-h-[600px] object-contain" src="<?php echo $img_url; ?>" alt="">
 
-                                                            <div class="clip_box bottom left">
-                                                                <a href="" class="clip flex justify-center text-white text-center rounded-[40px] bg-blue px-[15px] w-[280px] py-[20px] mt-[20px] font-medium btn_catalog--blue clip_box ">
-                                                                    <p class="flex justify-center">Смотреть все</p>
-                                                                </a>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
 
                                                     <div class="sale-swiper overflow-hidden md:hidden block" style="width: max-content;">
                                                         <div class="swiper-wrapper" style="width: max-content;">
