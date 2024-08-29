@@ -1,37 +1,39 @@
 <?php
 
-/**
- * The Template for displaying products in a product category. Simply includes the archive template
- *
- * This template can be overridden by copying it to yourtheme/woocommerce/taxonomy-product-cat.php.
- *
- * HOWEVER, on occasion WooCommerce will need to update template files and you
- * (the theme developer) will need to copy the new files to your theme to
- * maintain compatibility. We try to do this as little as possible, but it does
- * happen. When this occurs the version of the template file will be bumped and
- * the readme will list any important changes.
- *
- * @see         https://docs.woocommerce.com/document/template-structure/
- * @package     WooCommerce\Templates
- * @version     4.7.0
- */
-
 if (!defined('ABSPATH')) {
-	exit; // Exit if accessed directly.
+	exit; // Защита от прямого доступа.
 }
 
-$term = get_queried_object();
-$parent_id = $term->parent;
-$parent_term = get_term($parent_id, 'product_cat');
+// Получаем текущую категорию (термин)
+$current_term = get_queried_object();
 
-// Check if get_term returned a WP_Error object
-if (is_wp_error($parent_term)) {
-	// Handle the error, e.g., load a default template or display an error message
-	wc_get_template('archive-product.php'); // This is just an example
-} else {
-	if ($parent_term->slug == 'product_cat') {
-		wc_get_template('archive-categories.php');
+// Проверяем, является ли текущая категория родительской
+if ($current_term) {
+	// Получаем ID родительской категории
+	$parent_id = $current_term->parent;
+
+	if ($parent_id === 0) {
+		// Это родительская категория
+		// Получаем подкатегории у текущей категории
+		$subcategories = get_terms(array(
+			'taxonomy' => 'product_cat',
+			'parent' => $current_term->term_id,
+			'hide_empty' => false, // Показываем пустые подкатегории
+		));
+
+		if (!is_wp_error($subcategories) && !empty($subcategories)) {
+			// Если подкатегории существуют, загружаем шаблон для их отображения
+			wc_get_template('archive-single-category.php');
+		} else {
+			// Если подкатегорий нет, можно вывести сообщение или загрузить другой шаблон
+			echo '<p>У этой категории нет подкатегорий.</p>';
+			wc_get_template('archive-category.php');
+		}
 	} else {
-		wc_get_template('archive-product.php');
+		// Если это не родительская категория, вы можете обработать другие случаи
+		echo '<p>Это дочерняя категория.</p>';
+		wc_get_template('archive-single-category.php');
 	}
+} else {
+	echo '<p>Не удалось получить текущую категорию.</p>';
 }

@@ -21,8 +21,10 @@ defined('ABSPATH') || exit;
 get_header();
 
 
-?>
 
+
+
+?>
 
 <div class="container">
 	<?php
@@ -55,6 +57,7 @@ get_header();
 	</header>
 
 	<div class="catalog_list--category">
+		<!-- ТОЛЬКО КАТЕГОРИИ И ПОДКАТЕГОРИИ -->
 		<ul class="grid md:grid-cols-4 grid-cols-2 gap-[20px]">
 			<?php
 			$categories = get_terms(array(
@@ -104,6 +107,8 @@ get_header();
 				<?php endforeach; ?>
 			<?php endif; ?>
 		</ul>
+
+
 	</div>
 </div>
 
