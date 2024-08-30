@@ -133,7 +133,7 @@
                 <p class="text-red font-semibold">Корзина</p>
             </a>
 
-            <a href="/favorite" class="flex flex-col gap-2 items-center justify-center">
+            <a href="/wishlist" class="flex flex-col gap-2 items-center justify-center">
                 <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_7_1192)">
                         <path d="M11.1871 22.4886L11.186 22.4876C7.9519 19.6109 5.32907 17.2763 3.50571 15.0896C1.6905 12.9127 0.75 10.9767 0.75 8.91037C0.75 5.56157 3.42553 2.9165 6.875 2.9165C8.82825 2.9165 10.7106 3.81206 11.9336 5.22084L12.5 5.87324L13.0664 5.22084C14.2894 3.81206 16.1717 2.9165 18.125 2.9165C21.5745 2.9165 24.25 5.56157 24.25 8.91037C24.25 10.9767 23.3095 12.9127 21.4941 15.0914C19.6722 17.2779 17.0523 19.6133 13.8219 22.4928L13.8151 22.4989L13.8134 22.5004L12.5019 23.6627L11.1871 22.4886Z" stroke="#76212E" stroke-width="1.5" />

@@ -64,7 +64,7 @@ get_header();
 				'taxonomy'   => 'product_cat',
 				'orderby'    => 'meta_value_num',
 				'order'      => 'ASC',
-				'hide_empty' => false,
+				'hide_empty' => true,
 				'parent'     => 0,
 			));
 
@@ -72,8 +72,8 @@ get_header();
 			if (!is_wp_error($categories) && !empty($categories)) :
 				foreach ($categories as $category) :
 			?>
-					<li style="width: max-content; border: 1px solid red;" class="catalog_list__item">
-						<a href="<?php echo get_category_link($category->term_id); ?>" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+					<li class="catalog_list__item">
+						<a href="<?php echo get_category_link($category->term_id); ?>">
 							<?php
 							$thumbnail_url = wp_get_attachment_url(get_woocommerce_term_meta($category->term_id, 'thumbnail_id', true));
 							?>
